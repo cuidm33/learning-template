@@ -1,0 +1,19 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.130:3306/springboot?characterEncoding=UTF8&useSSL=false
+    username: root
+    password: cdm0928
+  redis:
+    database: 0
+    host: 192.168.1.130
+    port: 6379
+    password: 123456
+    timeout: 5000
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tsui.dao.UserLikeMapper">
+  <resultMap id="BaseResultMap" type="cn.tsui.model.UserLike">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="liked_user_id" jdbcType="VARCHAR" property="likedUserId" />
+    <result column="liked_post_id" jdbcType="VARCHAR" property="likedPostId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_like
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.tsui.model.UserLike">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_like (id, liked_user_id, liked_post_id, 
+      status, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{likedUserId,jdbcType=VARCHAR}, #{likedPostId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.tsui.model.UserLike">
+    update user_like
+    set liked_user_id = #{likedUserId,jdbcType=VARCHAR},
+      liked_post_id = #{likedPostId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, liked_user_id, liked_post_id, status, create_time, update_time
+    from user_like
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, liked_user_id, liked_post_id, status, create_time, update_time
+    from user_like
+  </select>
+
+  <select id="findByLikedUserIdAndStatus" resultType="cn.tsui.model.UserLike">
+    select id, liked_user_id, liked_post_id, status, create_time, update_time
+    from user_like
+    <where>
+      liked_user_id = #{likedUserId}
+      and status=#{code}
+    </where>
+  </select>
+
+  <select id="findByLikedUserIdAndLikedPostId" resultType="cn.tsui.model.UserLike">
+    select id, liked_user_id, liked_post_id, status, create_time, update_time
+    from user_like
+    <where>
+      liked_user_id = #{likedUserId}
+      and liked_post_id=#{likedPostId}
+    </where>
+
+  </select>
+
+  <select id="findByLikedPostIdAndStatus" resultType="cn.tsui.model.UserLike">
+    select id, liked_user_id, liked_post_id, status, create_time, update_time
+    from user_like
+    <where>
+      liked_post_id=#{likedPostId}
+      and status=#{code}
+    </where>
+  </select>
+</mapper>
